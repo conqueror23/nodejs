@@ -15,7 +15,7 @@ console.log('files has been altered');
 
 console.log('buffers');
 
-var mybuffer = new Buffer('ii1j2i3h1i23h', 'base64');
+var mybuffer = Buffer.from('ii1j2i3h1i23h', 'base64');
 
 console.log(mybuffer);
 require('fs').writeFile('logo.txt', mybuffer,function(err){

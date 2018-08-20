@@ -27,7 +27,7 @@ if(++i == files.length){
 
 function read(){
  	console.log('');
- 	stdout.write( 'Enter your choice');
+ 	stdout.write( 'Enter your choices that you want find ');
 
  	stdin.resume();
  	stdin.setEncoding('utf8');

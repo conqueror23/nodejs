@@ -20,18 +20,6 @@ var server = net.createServer(function (conn){
 	
 	var nickname ;
 	conn.on('data',function(data){
-		/*
-		// broadcast 
-		function brodacast(){
-			for (var i in users){
-				if(!exceptMyself || i!=nickname){
-					users[i].write(msg);
-				}
-			}
-		}
-		brodacast('\033[90m >'+nickname+' joined the room\033[39m\n');
-		*/
-
 		
 		//delete return 
 		data = data.replace('\r\n', '');
@@ -45,7 +33,7 @@ var server = net.createServer(function (conn){
 				users[nickname] = conn;
 				for (var i in users){
 					if (i != nickname){
-					users[i].write('\033[90m> '+ nickname+'joined the room\033[39m\n'); 	
+					users[i].write('\033[90m> '+ nickname+' joined the room\033[39m\n'); 	
 					}
 					
 				}
@@ -58,11 +46,9 @@ var server = net.createServer(function (conn){
 	conn.setEncoding('utf8');
 
 	count ++;
-	//handle connection
-	//console.log('\033[90m new connection!\033[39m');
+	
 
 });
-
 
 /**
 * listening

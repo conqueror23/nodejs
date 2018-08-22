@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>new</title>
+  </head>
+  <body>
+
+    <div id="app">
+    	<h2> {{products}} are in stock.</h2>
+
+      <ul>
+        <li v-for="product in products ">
+          {{product}}
+        </li>
+      </ul>
+    </div>
+    
+   	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js">
+   </script>
+
+    <script>
+    	const app = new Vue({
+    		el: '#app',
+    		data: {
+    			products :[
+          'Boots',
+          'Shoes',
+          'PCs'
+          ]
+    		}
+    	})
+    </script>
+
+  </body>
+</html>

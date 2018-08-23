@@ -1,11 +1,5 @@
-/**
-*
-*/
 
 var net = require('net');
-/**
-* create server
-*/
 
 var server = net.createServer(function (conn){
 	conn.on('close',function(){
@@ -50,17 +44,11 @@ var server = net.createServer(function (conn){
 
 });
 
-/**
-* listening
-*/
 
 server.listen(3000,function (){
 	console.log('\033[96m server listening on *:3000\033[39m');
 });
 
-/*
-* counter 
-*/
 var count = 0
 , users ={};
 

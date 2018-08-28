@@ -1,6 +1,7 @@
 /**
 *
 */
+var fs = require('fs');
 
 var net = require('net');
 /*
@@ -15,18 +16,19 @@ var count = 0
 
 var server = net.createServer(function (conn){
 	// broadcast 
-	function brodacast(msg,exceptMyself){
+	function broadcast(msg,exceptMyself){
 			for (var i in users){
 				if(!exceptMyself || i!=nickname){
 					users[i].write(msg);
 				}
 			}
-		};
+	};
 
 	conn.on('close',function(){
 	count--;
 	delete users[nickname];
-	broadcast('\033[90m > '+nickname.toUpperCase()+' left the room \033[39m\n');
+	console.log(''+nickname+'left the room');
+	//broadcast('\033[90m > '+nickname+' left the room \033[39m\n');
 	});
 
 	conn.write(	'\n > welcom to \033[92mnode-chat\033[39m'
@@ -41,7 +43,7 @@ var server = net.createServer(function (conn){
 	var nickname ;
 	conn.on('data',function(data){
 		
-		brodacast('\033[96m >'+nickname+': \033[39m '+data +'\n',true);
+		broadcast('\033[96m >'+nickname+': \033[39m '+data +'\n',true);
 		
 		//delete return 
 		data = data.replace('\r\n', '');
@@ -60,7 +62,7 @@ var server = net.createServer(function (conn){
 					if (i != nickname){
 					//users[i].write('\033[90m> '+ nickname+'joined the room\033[39m\n');
 					// use uppercase to make nick name more clear
-					brodacast('\033[90m >'+nickname.toUpperCase()+' joined the room\033[39m\n'); 	
+					broadcast('\033[90m >'+nickname.toUpperCase()+' joined the room\033[39m\n'); 	
 					}
 					
 				}

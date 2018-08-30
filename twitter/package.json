@@ -1,0 +1,8 @@
+{
+	"name": "tweet-client",
+	"description": "An http tweets client",
+	"version": " 0.0.1",
+	"dependencies": {
+		"twitter": "^1.7.1"
+	}
+}

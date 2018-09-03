@@ -1,5 +1,5 @@
 // moduel reles
-var connect = require('http');
+var connect = require('connect');
 
 // craete server
 
@@ -8,8 +8,8 @@ var server = connect();
 var serverStatic = require('serve-static');
 
 // deal with static files
-server.use(serveStatic(__dirname +'/website'));
+server.use('/web',serverStatic(__dirname+'/websites'));
 
 //liseten ports
 
-server.list(3000);
+server.listen(3000);

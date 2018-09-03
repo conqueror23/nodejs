@@ -24,7 +24,8 @@ client.get('search/tweets',{q: search, count:5}, function (error,tweets,response
 		console.log(' \033[90m' + tweet.text + '\033[39m');
 		console.log(' \033[94m' + tweet.user.name + '\033[39m');
 		console.log('--');
-		fs.writeFile('searching_record,txt',tweet.text+tweet.user.name+'=====\n',function(err){
+
+		fs.writeFile('searching_record,txt','\n'+tweet.text+tweet.user.name+'=====\n',function(err){
 			if(err){
 				return console.log(err);
 			}

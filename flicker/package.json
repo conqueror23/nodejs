@@ -2,6 +2,7 @@
 	"name ": "my-website",
 	"version": "0.0.1",
 	"dependencies": {
+		"body-parser": "^1.18.3",
 		"connect": "^1.9.2",
 		"serve-static": "^1.13.2"
 	}

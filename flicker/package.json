@@ -6,6 +6,7 @@
 		"connect": "^1.9.2",
 		"connect-cookies": "0.0.0",
 		"connect-redis": "^3.3.3",
+		"flickrapi": "^0.6.0",
 		"serve-static": "^1.13.2"
 	}
 }

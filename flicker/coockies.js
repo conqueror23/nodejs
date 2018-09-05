@@ -1,6 +1,6 @@
 // modules
 var connect = require('connect')
-,users = require('users');
+,users = require('./users');
 
 //create server
 
@@ -30,21 +30,26 @@ var server = connect(
 			,	'<legend>Please log in</legend>'
 			,	'<p>User: <input type ="text" name = "user"></p>'
 			,	'<p>Password :<input type = "password" name ="password"></p>'
+			,	'<button>Submit<button>'
 			,'</fieldset>'
 			,'</form>'
 			].join(''));
 		}else{
+			//console.log('loggin finished!');
 			next();
+
 		}
 	}
 	,function (req,res,next){
 		if('/login' == req.url && 'POST' == req.method){
+			//console.log('sessions are initializing');
 			res.writeHead(200);
 			if(!users[req.body.user]||req.body.password!= users[req.body.user].password){
 				res.end('Username /password wrong');
 			}else{
+				console.log(req.session);
 				req.session.logged_in = true;
-				res.session.name = users[req.body.user].name;
+				req.session.name = users[req.body.user].name;
 				res.end('Authenticaed!');
 			}
 		}else{
@@ -61,6 +66,7 @@ var server = connect(
 		}
 	}
 	);
+// how to deal with those input
 
 
 

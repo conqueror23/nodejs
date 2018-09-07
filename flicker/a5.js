@@ -3,9 +3,8 @@
 var connect = require('connect')
 ,users = require('./users');
 const Flickr=require('flickrapi');
-
+const fs =require('fs');
 //create server
-
 var server = connect(
 	connect.logger('dev')
 	,connect.bodyParser()
@@ -14,45 +13,53 @@ var server = connect(
 	,function (req,res,next){
 		if('/' == req.url && req.session.logged_in){
 			res.writeHead(200,{'Content-Type':'text/html'});
-			res.end(
-				'Welcome back, <b>' +req.session.name +'</b>.'
-				+ '<a href ="/logout">Logout</a>'
-				);
-
-			//add more manipulations to complete share pics controls
-			// add flicker programs here ?
-			// share pics??
-
-			
-
-			//search flicker pics 
-			let flickrOptions = {
-			      api_key: "ea02de069c0d0ab6c9127a03838ec3c1",
-			      secret: "1786dffd4ec6b4e4"
-			    };
-
-			Flickr.tokenOnly(flickrOptions, function(error, flickr) {
-			  flickr.photos.search({text: "cute+cat"}, function(err, result) {
-			  if(err) {
-			     throw new Error(err);
-			   }
-			  result.photos.photo.forEach(e=>{
-			    let url='https://farm'+e.farm+'.staticflickr.com/'+e.server+'/'+e.id+'_'+e.secret+'.jpg';
-			    res.end(url);
-			    //console.log(url);
-			  });
-			  });
-
-			});
-
-
-			//the result of flicker programs.
-
+			res.end([
+				'<legeng>Welcome back, <b>' +req.session.name +'</b>.'
+				+ '<a href ="/share">Logout</a></legend>'
+				,'<form method = "POST" action ="/upload">'
+				,'<fieldset>'
+				,'<p>I want to share Pic<input type ="text" name = "shares"></p>'
+				,'<button>Shares</button>'
+				,'</fieldset>'
+				,'</form>'
+				,'<form method = "POST" action ="/search">'
+				,'<fieldset>'
+				,'<p>What are you looking for <input type ="text", name = "search"></p>'
+				,'<button>Submit</button>'
+				,'</fieldset>'
+				,'</form>'
+				].join(''));
 		}else{
-			
 			next();
 		}
 	}
+	,function(req,res,next){
+		if('/search' == req.url && "POST" ==req.method){
+			const Flickr=require('flickrapi');
+			let flickrOptions = {
+		      api_key: "ea02de069c0d0ab6c9127a03838ec3c1",
+		      secret: "1786dffd4ec6b4e4"
+		    };
+			Flickr.tokenOnly(flickrOptions, function(error, flickr) {
+		  	flickr.photos.search({text: req.body.search}, function(err, result) {
+		  	if(err) {
+		     throw new Error(err);
+		   	}
+		   	res.writeHead(200,{'Content-Type': 'text/html'});
+		   	res.write('<h1>Search result for : <em>'+ req.body.search+'</em></h1>');
+		  	result.photos.photo.forEach(e=>{
+		    let url='https://farm'+e.farm+'.staticflickr.com/'+e.server+'/'+e.id+'_'+e.secret+'.jpg';
+		    console.log(url);
+		    res.write('<img src ="'+url+'" ></img>');
+		  	});
+		  	res.end('All result has been shown');
+		  	});
+			});
+		}else{
+			next();
+		}
+		}	
+	
 	,function (req,res,next){
 		if('/' == req.url && 'GET' == req.method ){
 			res.writeHead(200,{'Content-Type': 'text/html'});
@@ -67,7 +74,6 @@ var server = connect(
 			,'</form>'
 			].join(''));
 		}else{
-			//console.log('loggin finished!');
 			next();
 
 		}
@@ -82,7 +88,7 @@ var server = connect(
 				console.log(req.session);
 				req.session.logged_in = true;
 				req.session.name = users[req.body.user].name;
-				res.end('Authenticaed!');
+				res.end('<p>Authenticaed!</p><p><a href ="/">pics center&searching engin</a></p>');
 			}
 		}else{
 		next();
@@ -97,18 +103,18 @@ var server = connect(
 		next();
 		}
 	}
+	,function (req,res,next){
+		if('/upload'==req.url){
+			res.writeHead(200,{'Content-Type': 'text/html'});
+			console.log(req.body.shares);
+			res.end([
+				'<img src= "'+req.body.shares+'"></img>'
+				,'<a href ="/">Home</a>'
+				].join(''));
+		}else{
+			next();
+		}
+	}
 	);
-// how to deal with those input
 
-
-
-
-//server.use(connect.coockieParser());
 server.listen(3000);
-
-
-
-// can be usedto share images
-
-// able to share flicker for images 
-

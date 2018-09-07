@@ -14,7 +14,7 @@ require('http').createServer(function(req,res){
 	
 }else if('/url' ==req.url){
 	res.writeHead(200,{'Content-type':'text/html'});
-	res.end('you have sent a <em>'+req.method + '</em>request');
+	res.end('you have sent a <em>'+req.body.name + '</em>request');
 }
 	
 }).listen(3000);

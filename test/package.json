@@ -1,0 +1,20 @@
+{
+  "name": "new",
+  "version": "1.0.0",
+  "description": "This is a way to create a projcet through command lines",
+  "main": "module.js",
+  "scripts": {
+    
+"start": "node new.js",
+"test": "console.log('new start here');"
+  },
+  "repository": {
+    "type": "git",
+    "url": "wayneoborong@gmail.com"
+  },
+  "keywords": [
+    "Test"
+  ],
+  "author": "BW",
+  "license": "ISC"
+}

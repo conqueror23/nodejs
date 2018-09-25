@@ -10,7 +10,7 @@ const server = http.createServer((req, res)   => {
       console.log
                 (`Server running at http://${hostname}:${port}/`);
 //app.get ('/',function (req,res){
-	res.send ('hello word');
+// res.send ('hello word');
 //})
 	console.log('hello this the server using here');
 });

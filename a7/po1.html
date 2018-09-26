@@ -1,0 +1,26 @@
+<html>
+<body>
+</body>
+<canvas id='je'>
+  <script>
+var poly=[ 0, 0, 90, 40, 50, 95, 0,90,100 ];
+// var canvas=document.getElementById("je")
+var ctx =je.getContext('2d');
+ctx.fillStyle = 'red';
+// ctx.fillStyle('red');
+ctx.beginPath();
+ctx.moveTo(poly[0], poly[1]);
+for( i=2 ; i < poly.length-1 ; i+=2 )
+                      {ctx.lineTo( poly[i] , poly[i+1] )}
+ctx.closePath();
+
+// ctx.strokeStyle('red');
+ctx.fill();
+
+
+
+  </script>
+
+
+</canvas>
+</html>

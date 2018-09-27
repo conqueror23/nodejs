@@ -1,3 +1,5 @@
+process.EventEmitter = require('events').EventEmitter; //should be added as the version changes
+
 var express = require('express')
 , wsio = require('websocket.io');
 
@@ -12,7 +14,7 @@ var ws = wsio.attach(server);
 // var postion  = {}
 // , total = 0;
 
-server.use('/',express.static('public'));
+app.use(express.static('public'));
 
 ws.on('connection',function (socket){
   socket.on('message',function(msg){

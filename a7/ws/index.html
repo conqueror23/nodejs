@@ -1,0 +1,32 @@
+<html>
+<head>
+  <title> Wesocket</title>
+  <script>
+    var lastMessage;
+
+    window.onload = function(){
+      //create socket
+      var ws = new WebSocket('ws://localhost:3000');
+      ws.onopen =function (){
+        //send ping
+        ping();
+      }
+      ws.onmessage = function (ev){
+        console.log(ev.data);
+
+        document.getElementById('latency').innerHTML =new Date - lastMessage;
+
+        ping();
+      }
+      function ping(){
+        lastMessage = +new Date;
+        ws.send('ping');
+      }
+    }
+      </script>
+</head>
+<body>
+  <h1> web socket</h1>
+  <h2> latency: <span id="latency" ></span> ms</h2>
+</body>
+</html>

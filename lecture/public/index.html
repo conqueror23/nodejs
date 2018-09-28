@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<body>
+
+<p>Click the button to display the array values after the split.</p>
+
+<button onclick="myFunction()">Try it</button>
+
+<div ng-app = "myApp" ng-controller = "namesCtrl" >
+  <table border = '1' width = '0.5'>
+    <tr>
+      <th ng-click = "orderByMe(name)">name</th>
+      <th ng-click = "orderByMe(country)">country</th>
+    </tr>
+  <tr ng-repeat = "x in names | orderBy:myOrderBy">
+    <td>{{x.name }}</td>
+    <td>{{x.country}}</td>
+  </tr>
+<script>
+angular.module('myApp',[]). controller('namesCtrl',
+function($scope){
+  $scope.names = [
+    {name :'Jani',country :'Norway'},
+    {name :'Jani',country :'Norway'},
+    {name :'Jani',country :'Norway'},
+    {name :'Jani',country :'Norway'},
+    {name :'Jani',country :'Norway'},
+    {name :'Jani',country :'Norway'},
+    {name :'Jani',country :'Norway'},
+  ];
+  $scope.orderByMe = function(x){
+    $scope.myOrderBy = x;
+  }
+}
+)
+</script>
+
+
+  </table>
+</div>
+
+<p id="demo"></p>
+<p id="demo2"></p>
+<script>
+function myFunction() {
+    var str = "How are you doing today?";
+    var res = str.split(" ");
+
+    document.getElementById("demo").innerHTML = res;
+    document.getElementById("demo2").innerHTML = str;
+    console.log(res);
+}
+</script>
+
+</body>
+</html>

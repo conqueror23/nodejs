@@ -22,6 +22,10 @@ rl.on('line',function(line){
 }
 
 }
+if((arr.length-1)){
+		console.log(arr[arr.length-1]);
+}else{
+	console.log('null');
+}
 
-	console.log(arr);
 });

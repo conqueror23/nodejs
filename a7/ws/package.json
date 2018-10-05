@@ -1,0 +1,20 @@
+{
+  "name": "ws",
+  "version": "1.0.0",
+  "description": "websocket testing ",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "websocket"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3",
+    "http": "0.0.0",
+    "websocket.io": "^0.2.1"
+  }
+}

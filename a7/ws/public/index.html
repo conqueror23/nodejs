@@ -3,7 +3,6 @@
   <title> Wesocket</title>
   <script>
     var lastMessage;
-
     window.onload = function(){
       //create socket
       var ws = new WebSocket('ws://localhost:3000');
@@ -13,9 +12,7 @@
       }
       ws.onmessage = function (ev){
         console.log(ev.data);
-
         document.getElementById('latency').innerHTML =new Date - lastMessage;
-
         ping();
       }
       function ping(){

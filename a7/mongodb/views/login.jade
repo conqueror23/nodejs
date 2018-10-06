@@ -1,17 +1,18 @@
 extends layout
 
-block body 
- form(action ="/login",method = "POST")
-  fieldset 
+block body
+  if(signupEmail)
+  p Congratulations on singing up please login blow
+  form(action ="/login",method = "POST")
+  fieldset
    legend Log in
    p
-    label Email 
-    input(name="user[Email]",type="text")
+    label Email
+    input(name="user[Email]",type="text",values= signupEmail)
    p
-    label Paddword
+    label Password
     input(name="user[password]",type="text")
    p
     button submit
    p
-    a(href ="/") Go home 
-
+    a(href ="/") Go home

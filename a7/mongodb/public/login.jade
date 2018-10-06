@@ -1,0 +1,16 @@
+extends layout
+block body 
+ form(action ="/login",method = "POST")
+  fieldset 
+   legend Log in
+   p
+    label Email 
+    input(name="user[Email]",type="text")
+   p
+    label Paddword
+    input(name="user[password]",type="text")
+   p
+    button submit
+   p
+    a(href ="/") Go home 
+

@@ -4,7 +4,7 @@ var mongodb = require('mongodb');
 // connectint to mongodb
 var server = new mongodb.Server('127.0.0.1',27017);
 
-new mongodb.Db('customer',server).open(function(err,client){
+var db = new mongodb.Db('customer',server).open(function(err,client){
 if(err) throw err;
 console.log('connected to database');
 
@@ -23,15 +23,10 @@ client.ensureIndex('users','Email',function(err){
 
 		console.log('\033m[96m + \033[39m ensured index');
 
-
-
-
 		app.listen(3000);
-
-
+		
 })
 })
-
 });
 
 var app = express.createServer();
@@ -100,8 +95,11 @@ app.post('/signup',function (req,res,next){
 });
 
 app.post('/login',function(req,res){
-	app.users.findOne({Email:"req.body.user.Email",password:"req.body.user.password"}
+	//console.log(app.users.findOne({Email:"req.body.user.Email",password:"req.body.user.password"}));
+	app.users.findOne({Email:req.body.user.Email,password:req.body.user.password}
 		,function(err,doc){
+			// cannot find the doc??
+			console.log(doc);
 			if(err) return next (err);
 			if(!doc) return res.send('<p>user not fond. Go back')
 			req.session.loggedIn = doc._id.toString();

@@ -5,7 +5,7 @@ var express = require('express');
 var fs = require("fs");
 var app = express();
 
-app.use(express.static('./views'));
+app.use('views',express.static('./views'));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -22,6 +22,7 @@ app.set("view engine", "ejs");
 app.get('/', function (req, res) {
   console.log("/ GET");
   res.writeHead(200, { 'Content-Type': 'text/html; charset=utf8' });
+  // res.send('<h1>This is inside send action</h1>');
   res.end([
     '<form method = "post"><br/>Part 1:<br/>'
     ,'<input name = "part1"><br/>Part 2:<br/><input name = "part2"><br/><button>submit</button></form>'
@@ -40,7 +41,6 @@ app.post('/', function (req, res) {
   req.session.part2 = req.body.part2;
   req.session.search = req.body.img;
   res.redirect('http://chart.apis.google.com/chart?chs=400x400&chdlp=b&chtt=PiesOfRatios&chdl=part1|part2&chd=t:'+req.body.part1+','+req.body.part2+'&cht=p')
-
 });
 
 app.get('/send', function(req, res) {
@@ -68,7 +68,6 @@ app.get('/render', function(req, res) {
   res.render('index');
 });
 
-
 // app.get('/googleapi', function(req, res) {
 //   //res.render('index.html');
 //   res.writeHead(200, { 'Content-Type': 'text/html; charset=utf8' });
@@ -77,9 +76,7 @@ app.get('/render', function(req, res) {
 //   res.end(data);
 //   });
 // });
-
 app.listen(3000);
-//
 // var server = app.listen(3000, function () {
 //   var host = server.address().address
 //   var port = server.address().port

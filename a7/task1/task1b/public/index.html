@@ -3,24 +3,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <body>
 
-	<p>Click the table headers to change the sorting order:</p>
-
 	<div ng-app="myApp">
-
-		<div ng-controller="namesCtrl">
-
-			<table border="1" width="100%">
-				<tr>
-					<th ng-click="orderByMe('name')">Name</th>
-					<th ng-click="orderByMe('country')">Country</th>
-				</tr>
-				<tr ng-repeat="x in names | orderBy:myOrderBy">
-					<td>{{x.name}}</td>
-					<td>{{x.country}}</td>
-				</tr>
-			</table>
-
-		</div><br><br><br>
 
 		<h1>Twitter API</h1>
 		<div ng-controller="twitterCtrl">
@@ -70,23 +53,6 @@
 
 	<script>
 		var app = angular.module('myApp', []);
-
-		app.controller('namesCtrl', function($scope,$http) {
-			$http({
-				method : "GET",
-				url : "/test",
-			}).then(
-			function mySuccess(response)
-			{
-				$scope.names = response.data.records;
-			},
-			function myError(response)
-			{});
-			$scope.orderByMe = function(x) {
-				$scope.myOrderBy = x;
-			}
-		});
-
 
 		app.controller('twitterCtrl', function($scope,$http) {
 			$scope.twitter_onclick=function()

@@ -1,0 +1,42 @@
+  <html>
+  <head>
+    <title>  Sockect</title>
+    <script src = '/socket.io/socket.io.js'></script>
+    <script src = 'chat.js'></script>
+    <link href = 'chat.css' rel = 'sytlesheet'>
+    <style>
+      #login{
+        display: none;
+      }
+      #chat{
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div id= "login">
+      <form>
+        Email:<input type="text" id="email">
+        Nickname :<input type="text" id="nickname">
+        <button id="loginBtn" type="button">login</button>
+      </form>
+    </div>
+
+    <div id="chat">
+      History Record:
+      <ul id="messages"></ul>
+      <form id="form">
+          Message:<input type="text" id="input"/>
+          <button id="formBtn" type="button">Send</button>
+          <br>
+          Search:<input type="text" id="search">
+          <button id="SearBtn"type="button">Search</button>
+
+      </form>
+      Search Result:
+      <ul id="searchResult"></ul>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,13 @@
+
+<h1> tweets searching results</h1>
+<p>Last search is :<%= search%></p>
+
+<% if(results.length) { %>
+<ul>
+  <% for (var i=0;i<=results.length-1;i++){ %>
+    <li><b><%= results[i].user.name %></b> says:<%= results[i].text %></li>
+  <% } %>
+</ul>
+<% }else{ %>
+  <p> No results</p>
+<% } %>

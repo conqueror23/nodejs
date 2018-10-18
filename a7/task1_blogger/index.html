@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<body>
+
+	<p>Click the table headers to change the sorting order:</p>
+
+	<div ng-app="myApp">
+
+		<div ng-controller="namesCtrl">
+
+			<table border="1" width="100%">
+				<tr>
+					<th ng-click="orderByMe('name')">Name</th>
+					<th ng-click="orderByMe('country')">Country</th>
+				</tr>
+				<tr ng-repeat="x in names | orderBy:myOrderBy">
+					<td>{{x.name}}</td>
+					<td>{{x.country}}</td>
+				</tr>
+			</table>
+
+		</div><br><br><br>
+
+		<h1>Twitter API</h1>
+		<div ng-controller="twitterCtrl">
+			Enter keyword: <input type="text" ng-model="twitter_q">
+			<button ng-click="twitter_onclick()">Search</button>
+			<br><br>
+
+						<table border="1" width="100%">
+				<tr>
+					<th ng-click="twitter_orderByMe('user.id_str')">User ID</th>
+					<th ng-click="twitter_orderByMe('user.name')">Username</th>
+					<th ng-click="twitter_orderByMe('text')">Content</th>
+					<th ng-click="twitter_orderByMe('created_at')">Created at</th>
+				</tr>
+				<tr ng-repeat="x in tweets | orderBy:myOrderBy">
+					<td>{{x.user.id_str}}</td>
+					<td>{{x.user.name}}</td>
+					<td>{{x.text}}</td>
+					<td>{{x.created_at}}</td>
+				</tr>
+			</table>
+
+		</div>
+
+		<h1>Google Books API</h1>
+        <div ng-controller="GoogleBookCtrl">
+
+            Enter keyword: <input type="text" ng-model="GoogleBook_q">
+            <button ng-click="GoogleBook_onclick()">Search</button>
+            <br><br>
+
+            <table border="1" width="100%">
+                <tr>
+                    <th>Cover</th>
+                    <th ng-click="GoogleBook_orderByMe('volumeInfo.title')">Title</th>
+                    <th ng-click="GoogleBook_orderByMe('volumeInfo.authors')">Authors</th>
+                </tr>
+                <tr ng-repeat="x in books | orderBy:myOrderBy">
+                    <td><img src={{x.volumeInfo.imageLinks.thumbnail}}></td>
+                    <td>{{x.volumeInfo.title}}</td>
+                    <td>{{x.volumeInfo.authors}}</td>
+                </tr>
+            </table>
+        </div>
+
+	</div>
+
+	<script>
+		var app = angular.module('myApp', []);
+
+		app.controller('namesCtrl', function($scope,$http) {
+			$http({
+				method : "GET",
+				url : "/test",
+			}).then(
+			function mySuccess(response)
+			{
+				$scope.names = response.data.records;
+			},
+			function myError(response)
+			{});
+			$scope.orderByMe = function(x) {
+				$scope.myOrderBy = x;
+			}
+		});
+
+
+		app.controller('twitterCtrl', function($scope,$http) {
+			$scope.twitter_onclick=function()
+			{
+				$http({
+					method : "GET",
+					url : "/search",
+					params :
+					{
+						q: $scope.twitter_q
+					}
+				}).then(
+				function mySuccess(response)
+				{
+					$scope.tweets = response.data.statuses;
+				},
+				function myError(response)
+				{});
+				$scope.twitter_orderByMe = function(x) {
+					$scope.myOrderBy = x;
+				}
+			}
+		});
+
+		app.controller('GoogleBookCtrl', function($scope,$http) {
+            $scope.GoogleBook_onclick=function(){
+                $http({
+                    method : "GET",
+                    url : "https://www.googleapis.com/blogger/v3/blogs/",
+                    params :
+                    {
+                        q: $scope.GoogleBook_q
+                    }
+                }).then(
+                function mySuccess(response)
+                {
+                    $scope.books = response.data.items;
+                },
+                function myError(response)
+                {});
+                $scope.GoogleBook_orderByMe = function(x) {
+                    $scope.myOrderBy = x;
+                }
+            }
+        });
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,12 @@
+extends layout
+
+block body
+ if(authenticated)
+  p welcome back,#{me.first)
+  a(href ="/logout") logout
+ else
+  p welcome new visitors
+  ul
+   li: a(href="/login") Login
+   li: a(href="/signup") Signup
+

@@ -24,7 +24,7 @@ client.ensureIndex('users','Email',function(err){
 		console.log('\033m[96m + \033[39m ensured index');
 
 		app.listen(3000);
-		
+
 })
 })
 });

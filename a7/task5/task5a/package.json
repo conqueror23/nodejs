@@ -1,0 +1,21 @@
+{
+  "name": "chatroom_login",
+  "version": "1.0.0",
+  "description": "chat room dependencies",
+  "main": "chatroom-login.js",
+  "scripts": {
+    "test": "node chatroom-login"
+  },
+  "keywords": [
+    "chat",
+    "room"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongo": "^0.1.0",
+    "mongodb": "^3.1.8",
+    "socket.io": "^2.1.1"
+  }
+}

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<script src="https://cdn.bootcss.com/angular.js/1.6.3/angular.min.js"></script>
+    <title>MongoChat</title>
+</head>
+<body ng-app="myApp" >
+    <div class="container">
+        <div>
+            <div>
+                <h1 class="text-center">
+                    MongoChat
+                    <button id="clear" class="btn btn-danger">Clear</button>
+                </h1>
+                <div id="status"></div>
+                <div id="chat">
+                    <input type="text" id="username" class="form-control" placeholder="Enter name...">
+                    <br>
+					<input type="text" id="email" class="form-control" placeholder="Email-address">
+                    <br>
+					<input type="text" id="search" class="form-control" placeholder="Search the comment by a particular word">
+					 <button id="searchbutton" class="btn btn-danger">Search it</button>
+                    <br>
+                    <div>
+                        <div id="messages">
+
+                        </div>
+                    </div>
+                    <br>
+                    <textarea id="textarea" placeholder="Enter message..."></textarea>
+                </div>
+				<div id="results"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+
+    <script>
+
+        (function(){
+            var element = function(id){
+                return document.getElementById(id);
+            }
+            // Get Elements
+            var status = element('status');
+            var messages = element('messages');
+            var textarea = element('textarea');
+            var username = element('username');
+			var email= element('email');
+			var search=element('search');
+            var clearBtn = element('clear');
+			var searchBtn = element('searchbutton');
+			var results=element('results');
+
+            // Set default status
+            var statusDefault = status.textContent;
+            var setStatus = function(s){
+                // Set status
+                status.textContent = s;
+                if(s !== statusDefault){
+                    var delay = setTimeout(function(){
+                        setStatus(statusDefault);
+                    }, 3000);
+                }
+            }
+            // Connect to socket.io
+            var socket = io.connect('http://127.0.0.1:3000');
+            // Check for connection
+            if(socket !== undefined){
+                console.log('Connected to socket...');
+                // Handle Output
+                socket.on('output', function(data){
+                    //console.log(data);
+                    if(data.length){
+                        for(var x = 0;x < data.length;x++){
+                            // Build out message div
+                            var message = document.createElement('div');
+                            message.setAttribute('class', 'chat-message');
+                            message.textContent = data[x].name+": "+data[x].message+"Email: "+data[x].email+"time: "+data[x].time;
+                            messages.appendChild(message);
+                            messages.insertBefore(message, messages.firstChild);
+                        }
+                    }
+                });
+                // Get Status From Server
+                socket.on('status', function(data){
+                    // get message status
+                    setStatus((typeof data === 'object')? data.message : data);
+                    // If status is clear, clear text
+                    if(data.clear){
+                        textarea.value = '';
+                    }
+                });
+                // Handle Input
+                textarea.addEventListener('keydown', function(event){
+                    if(event.which === 13 && event.shiftKey == false){
+                        // Emit to server input
+                        socket.emit('input', {
+                            name:username.value,
+                            message:textarea.value,
+							email:email.value,
+							time: Date.now()
+                        });
+                        event.preventDefault();
+                    }
+                })
+                // Handle Chat Clear
+                clearBtn.addEventListener('click', function(){
+                    socket.emit('clear');
+                });
+                // Clear Message
+                socket.on('cleared', function(){
+                    messages.textContent = '';
+                });
+
+				//Handle search Message
+				searchBtn.addEventListener('click', function(){
+					socket.emit('search',{key:search.value});
+				});
+
+				//Search result
+				socket.on('searched', function (data) {
+					console.log(data);
+
+					if (data.length) {
+						for (var i = 0; i < data.length; i++) {
+							var result = document.createElement('p');
+							result.textContent = data[i].message;
+							results.appendChild(result);
+
+						}
+					}
+
+				});
+
+
+            }
+        })();
+    </script>
+
+
+<div ng-controller="myCtrl">
+
+<input ng-model="name">
+
+<h1>the user is {{name}}</h1>
+
+</div>
+
+<script>
+var app = angular.module('myApp', []);
+
+app.controller('myCtrl', function($scope) {
+    $scope.name = "John Doe";
+});
+</script>
+
+
+
+</body>
+</html>

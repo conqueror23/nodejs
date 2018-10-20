@@ -7,10 +7,10 @@ var Twitter = require('twitter');
 var search = process.argv.slice(2).join(' ').trim()
 
 var client = new Twitter({
-	consumer_key : 'k0CLgrsoSbjO3a6AdyZPjckKU',
-	consumer_secret : 'ggHEboahk5Db3c3vkwNqcVWdLgW7PrRnN3CuNdyLnH3z5sEByN',
-	access_token_key : '1034319528572772352-zoR2DJ7Zs7UQOE8zBTD11F7b1wRTmu',
-	access_token_secret : 'h0xm1KqenOcQBirr14qR8poC5EA7j3JoikoO60qv0hozT'
+	consumer_key : 'jXwGwh3z6471rgE1nxdlCExtL',
+	consumer_secret : 'jVNDEOHoh7kPt004opMl9wteot0YAaubTrpt3lF5l91MX8OAD1',
+	access_token_key : '1840296936-rfThqqWXZFXIClSXkpXbQ0ESASLTS26kyq5Y6Wm',
+	access_token_secret : '3lmn9LX4AbJKxk2AiHFZ9EhFl00OlMB1xzqOofK5UjC7m'
 });
 
 if(!search.length){
@@ -21,15 +21,17 @@ console.log('\n searching for : \033[96m' + search + '\033[39m\n');
 
 client.get('search/tweets',{q: search, count:5}, function (error,tweets,response){
 	tweets.statuses.forEach(function (tweet){
+		// console.log(tweet);
 		console.log(' \033[90m' + tweet.text + '\033[39m');
 		console.log(' \033[94m' + tweet.user.name + '\033[39m');
 		console.log('--');
 
-		fs.writeFile('searching_record,txt','\n'+tweet.text+tweet.user.name+'=====\n',function(err){
+		fs.writeFile('searching_record.txt','\n'+tweet.text+tweet.user.name+'=====\n',function(err){
 			if(err){
 				return console.log(err);
 			}
-			console.log('result has been output to a files');
+
 		})
+		console.log('result has been output to a files');
 	});
 });

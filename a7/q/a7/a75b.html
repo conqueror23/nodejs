@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<body>
+
+
+<div ng-app="myApp" ng-controller="namesCtrl">
+  <table border="1" style="border-collapse:collapse;">
+    <tr>
+      <td>MSG</td>
+      <td>AUTHOR</td>
+      <td>EMAIL</td>
+      <td>TIMESTAMP</td>
+    </tr>
+    <tr  ng-repeat="x in names">
+      <td>{{ x.msg }}</td>
+      <td>{{ x.author }}</td>
+      <td>{{ x.email }}</td>
+      <td>{{ x.time }}</td>
+    </tr>
+  </table>
+</div>
+
+
+<form action="/a75a" method="post">
+  MSG:<br/><input id='msg' name = 'msg' /><br/>
+  author:<br/><input id='author' name = 'author' /><br/>
+  email:<br/><input id='email' name = 'email' /><br/>
+  <br/><input id='time' name = 'time' type='hidden' /><br/>
+  <button>Submit</button>
+</form>
+
+<script>
+angular.module('myApp', []).controller('namesCtrl', function($scope,$http) {
+  $http.get("http://localhost:3000/a75a")
+  .then(function(response){
+    console.log(response.data);
+      $scope.names = response.data;
+  })
+});
+var d = new Date();
+document.getElementById('time').value = d.getTime();
+
+function postmsg(){
+angular.module('myApp', []).controller('namesCtrl', function($scope,$http) {
+  var req = {
+    method: 'POST',
+    url: 'http://localhost:3000/a75a',
+    headers: {
+      'Content-Type': 'text/plain'
+    },
+    data: { 
+      msg: document.getElementById('msg').value,
+      author: document.getElementById('author').value,
+      email: document.getElementById('email').value,
+      time: document.getElementById('time').value,
+    }
+  }
+  $http(req).then(function(){location.reload();}, function(){return false});
+});
+
+
+
+}
+
+
+
+
+
+</script>
+
+</body>
+</html>

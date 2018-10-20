@@ -1,96 +1,77 @@
-var express= require('express');
+var express = require('express');
 var sio = require('socket.io');
+var http = require('http');
 var app = express();
-var server = require('http').Server(app);
-var bodyParser = require('body-parser');
+// mongodb setttings
+var MongoClient = require('mongodb').MongoClient;
+var assert = require('assert');
+var url = "mongodb://127.0.0.1:27017";
+var dbName = "chatroom";
+// app.use(express.bodyParser());
+app.use('/',express.static('public'));
+var server = http.createServer(app);
+var io = sio.listen (server);
 
-var cookieParser = require('cookie-parser');
-var cookieSession = require('cookie-session');
+MongoClient.connect(url,function(err,client){
+  if(err) throw err;
+  const db  = client.db(dbName);
+  client.close();
+})
+// result;
+io.sockets.on('connection',function (socket){
+  console.log('Connected');
+  socket.on('loginm',function(email,nickname){
+    //it works things has been transfered here
+    // console.log(email,nickname,url);
+    MongoClient.connect(url,function(err,client){
+      if(err) throw err;
+      console.log("mongo auth process");
+      const db  = client.db(dbName);
+      // to make it functional
+      db.collection("record").find({"email":email,"nickname":nickname},function(err,data){
+        if (err) throw err;
+        if(data){
+            MongoClient.connect(url,function(err,client){
 
-
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
-//connection URL
-const url = 'mongodb://127.0.0.1:27017';
-//DATAbase name
-const dbName = 'a7task5';
-
-
-
-
-app.use(express.static('public'));
-
-var io=sio(server);
-var test;
-io.sockets.on('connection',function(socket){
-     console.log('someone connected');
-     MongoClient.connect(url, function(err, client) {
-            if(err){throw err;};
-            console.log("Connected successfully to server");
-            const db = client.db(dbName);
-            const collection = db.collection('a7task5chat');
-            collection.find().limit(4).sort({_id:-1}).toArray(function(err,res){
-                if(err){
-                    throw err;
-                };
-            console.log(res);
-            // Emit the messages
-            socket.emit('output', res);
-                 
+            db.collection("record").find({"author":nickname}).sort({_id:-1}).limit(4).toArray(function(err,data){
+              console.log(data);
+              socket.emit('last4',data);
             });
-            client.close();
-        });
-    
-    socket.on('search',function(msg){
-        MongoClient.connect(url, function(err, client) {
-            if(err){throw err;};
-            console.log("search Connected successfully to server");
-            const db = client.db(dbName);
-            const collection = db.collection('a7task5chat');
-            collection.find({'message': new RegExp(msg, 'i')}).toArray(function(err,res){
-                if(err){
-                    throw err;
-                };
-                console.log(res);
-                test = res;
-                if(res.length!=0){
-                    socket.emit('searched',res);
-                };
-               // socket.emit('searched',res);
-            });
-            client.close();
-            
-        });
-        //socket.emit('searched',test);
+
+          })
+        //authenticated and shows the resutl
+      }
+      });
+      client.close();
     });
-    
-   
-    
-    socket.on('text',function(name,email,message){
-        //insert data
-        MongoClient.connect(url, function(err, client) {
-            if(err){throw err;};
-            console.log("Connected successfully to server");
-            const db = client.db(dbName);
-            const collection = db.collection('a7task5chat');
-            collection.insertOne({"name":name,
-                                  "email":email,
-                                  "message":message
-                                 },
-                                 function(err,result){
-                if(err){throw err;};
-                console.log('success');
-                // callback(result);
-                client.close();
-            })
-        });
-              socket.broadcast.emit('text',name,email,message,'messages');
-        
-              });
-    
-    
-    
-    
+  });
+  socket.on('text',function(email,nickname,input){
+    socket.broadcast.emit('text',nickname,input);
+    console.log("emails"+nickname);
+    //save the record to mongodb
+    MongoClient.connect(url,function(err,client){
+      if(err) throw err;
+      console.log("connect to mongo");
+      const db  = client.db(dbName);
+      db.collection("record").insert({"author":nickname,"email":email,"record":input})
+      client.close();
+    })
+  });
+  socket.on('search',function(word){
+    MongoClient.connect(url,function(err,client){
+      if(err) throw err;
+      console.log(word);
+      const db  = client.db(dbName);
+      db.collection("record").find({record:new RegExp(word, 'i')}).toArray(function(err,data){
+         if(err) throw err;
+        console.log(data);
+        socket.emit('searchResult',data)
+      })
+      client.close();
+    })
+  })
 });
-
+app.get('/search',function(req,res){
+  res.send(result);
+})
 server.listen(3000);

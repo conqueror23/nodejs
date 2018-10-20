@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<canvas id="myCanvas" width="800" height="600" style="border:1px solid black;"></canvas>
+<script>
+  var maxx=800;
+  var maxy=600;
+  var minx=0;
+  var miny=0;
+  var balls = [];
+  var sball = {};
+
+  //生成随机数
+  function rd(min,max){
+     return Math.ceil(Math.random()*(max-min)) + min;
+  }
+
+
+  //清空画布
+  function clearc(){
+    var c=document.getElementById("myCanvas");
+    var cxt=c.getContext("2d");
+    c.height=c.height;
+  }
+
+  //显示小球 x,y position  r:radius  c:color
+  function shows(b){
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    ctx.beginPath();
+    ctx.fillStyle = b.c;
+    ctx.arc(b.x,b.y,b.r,0,2*Math.PI);
+    ctx.stroke();
+    ctx.fill();
+  }
+
+  function move(){
+    var c=document.getElementById("myCanvas");
+    var cxt=c.getContext("2d");
+    c.height=c.height;
+    for(a=0;a<20;a++){
+      balls[a].x += balls[a].dx;
+      balls[a].y += balls[a].dy;
+      if(balls[a].x+balls[a].r > maxx || balls[a].x-balls[a].r < minx){
+        balls[a].dx *= -1;
+      }
+      if(balls[a].y+balls[a].r > maxy || balls[a].y-balls[a].r < miny){
+        balls[a].dy *= -1;
+      }
+    shows(balls[a]);
+    }
+  }
+
+  for(a=0;a<20;a++){
+    var ball = {
+      "x" : rd(100,500),
+      "y" : rd(100,500),
+      "c" : '#' + Math.ceil(Math.random()*255).toString(16)+Math.ceil(Math.random()*255).toString(16)+Math.ceil(Math.random()*255).toString(16),
+      "r" : 10,
+      "dx" : rd(-5,5),
+      "dy" : rd(-5,5)
+    }
+    balls.push(ball);
+  }
+
+  function ok(){
+    move()
+    setTimeout(ok,10);
+  }
+  ok();
+</script>
+
+</body>
+</html>

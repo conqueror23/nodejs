@@ -25,12 +25,12 @@ mongoose.connection.on('connected',function(){
     console.log('Mongoose connection open to'+ url);
 })
 
-mongoose.connection.on('error',function (err) {    
-    console.log('Mongoose connection error: ' + err);  
+mongoose.connection.on('error',function (err) {
+    console.log('Mongoose connection error: ' + err);
 });
 
-/*mongoose.connection.on('disconnected', function () {    
-    console.log('Mongoose connection disconnected');  
+/*mongoose.connection.on('disconnected', function () {
+    console.log('Mongoose connection disconnected');
 });*/
 
 //Schema model
@@ -57,9 +57,9 @@ app.post('/login',function(req,res){
                 function(err,doc){
         if(err)return next(err);
         if(!doc) return res.send('<p>User not found. Go back and try again</p>');
-        //req.seesion.loggedIn = doc._id.toString();
+        req.seesion.loggedIn = doc._id.toString();
         res.redirect('/');
-        
+
     })
 })
 
@@ -71,10 +71,10 @@ app.post('/signup', function (req, res, next) {
     }else{
         console.log("Res: "+ res);
     };
-   
+
   });
      res.redirect('/');
-    
+
 });
 
 

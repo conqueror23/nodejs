@@ -1,0 +1,99 @@
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+  <button onclick="solve()">Solve the resest</button><button onclick="location.reload();">Reset Game</button>
+  <table id = 'mytable' style="border: 1px solid black">
+  </table>
+</body>
+<script>
+  'use strict';
+  var a;
+  var b;
+  var c;
+  var wh = [];
+  var cc = [];
+  var size = 5;
+  size = size + 1 ;
+  for(c=0;c<12;c++){
+    cc.push('red');
+  }
+  for(c=12;c<68;c++){
+    cc.push('green');
+  }
+
+  var userclick = [];
+  var solution = ['td21','td32','td43','td54'];
+  
+  function ctr(trid){ 
+    var tr = document.createElement("tr");
+    tr.id = 'tr' + trid ;
+    document.getElementById("mytable").appendChild(tr);
+  }
+
+  function ctd(tdid,trid){ 
+    var td = document.createElement("td");
+    td.id = 'td' + trid + tdid ;
+    td.style = 'border: 1px solid black';
+    td.height = 70;
+    td.width = 70;
+    document.getElementById('tr'+trid).appendChild(td);
+  }
+
+  function refresh(){
+    for(c=11;c<67;c++){
+      $('#td'+c).css('background-color',cc[c]);
+    }
+  }
+
+  function changecolor(tid){
+    if(cc[tid]=='green'){
+      cc[tid] = 'red';
+    }else{
+      cc[tid] = 'green';
+    }
+  }
+
+  for(a=1;a<size;a++){
+    ctr(a);
+    for(b=1;b<size;b++){
+      ctd(b,a);
+    }
+  }
+
+  refresh();
+  $('td').click(function (e) { 
+    var vid = $(e.target).attr('id');
+    vid = parseInt(vid.substring(2, 4));
+    //changecolor(vid);
+    userclick.push('td'+vid);
+    changecolor(vid+1);
+    changecolor(vid-1);
+    changecolor(vid+10);
+    changecolor(vid-10);
+    refresh()
+  });
+
+  function solve(){
+    userclick.forEach(function(el){
+      wh.push(el);
+    })
+    solution.forEach(function(el){
+      wh.push(el);
+    })
+    showsolve();
+  }
+
+  var mx = -1;
+
+  function showsolve(){
+    mx += 1;
+    if(mx >= wh.length ){
+      return false;
+    }
+    document.getElementById(wh[mx]).click()
+    setTimeout(showsolve,1000);
+  }
+</script>
+</html>

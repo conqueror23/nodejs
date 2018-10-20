@@ -9,7 +9,7 @@ const util = require('util');
 const querystring =require('querystring');
 
 
-//http server 
+//http server
 http.createServer(function(req, res) {
   if (req.url == '/upload' && req.method.toLowerCase() === 'get') {
     // forms
@@ -76,14 +76,14 @@ var server = connect(
 		  	result.photos.photo.forEach(e=>{
 		    let url='https://farm'+e.farm+'.staticflickr.com/'+e.server+'/'+e.id+'_'+e.secret+'.jpg';
 		    res.write('<img src ="'+url+'" ></img>');
-		  	}); 
+		  	});
 		  	});
 			});
 		}else{
 			next();
 		}
-		}	
-	
+		}
+
 	,function (req,res,next){
 		if('/' == req.url && 'GET' == req.method ){
 			res.writeHead(200,{'Content-Type': 'text/html'});
@@ -135,7 +135,7 @@ function parseFile (req, res) {
   req.setEncoding('binary');
   var body = '';   // data
   var fileName = '';  // filename
-  // bondary 
+  // bondary
   var boundary = req.headers['content-type'].split('; ')[1].replace('boundary=','');
   req.on('data', function(chunk){
     body += chunk;
@@ -176,4 +176,3 @@ function parseFile (req, res) {
     }
   });
 }
-

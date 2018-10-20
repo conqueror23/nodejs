@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<body>
+
+
+<div ng-app="myApp" ng-controller="namesCtrl">
+
+<table border="1" width="100%">
+  <tr>
+    <th ng-click="orderByMe('name')">Name</th>
+    <th ng-click="orderByMe('country')">Point</th>
+    <th ng-click="orderByMe('pas')">Pass&Fail</th>
+  </tr>
+  <tr ng-repeat="x in names | orderBy:myOrderBy">
+    <td>{{x.name}}</td>
+    <td>{{x.country}}</td>
+    <td>{{x.pas}}</td>
+  </tr>
+</table>
+{{y}}
+</div>
+<script>
+angular.module('myApp', []).controller('namesCtrl', function($scope,$http) {
+    $http.get("http://localhost:3000/stu")
+    .then(function(response){
+        $scope.names = JSON.parse(response.data);
+        //console.log(response.data);
+        $scope.orderByMe = function(x) {
+          $scope.myOrderBy = x;
+        }
+    })
+});
+
+</script>
+
+</body>
+</html>

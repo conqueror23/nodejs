@@ -1,0 +1,24 @@
+
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<body>
+
+
+<div ng-app="myApp" ng-controller="namesCtrl">
+{{y}}
+</div>
+<script>
+
+angular.module('myApp', []).controller('namesCtrl', function($scope,$http) {
+    $http.get("http://localhost:4000/stu")
+    .then(function(response){
+      console.log(response.data);
+        $scope.y = response.data;
+    })
+
+});
+</script>
+
+</body>
+</html>

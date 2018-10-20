@@ -1,0 +1,62 @@
+from a,b,c<br/><input id = 'from'><br/>
+to b,c,d<br/><input id = 'to'><br/>
+<button onclick="show(document.getElementById('from').value,document.getElementById('to').value)">TEST</button><br/>
+<script>
+  //recrusive for find path connect to end of the firend but no start friend
+  //only find to final friend, starter's friend may not connect to the chain
+  //need to check if first friend in the chain is the starter's friend or not
+  function cr(start,end,route){
+    obj.forEach(function(res){
+      //console.log(res);
+      if(res.name == start){
+        if(typeof res.friend === 'string'){
+          route += ','+ res.friend;
+          if(res.friend == end){
+            route += ' OR '; //end of one chain, find other chain
+            return route;
+          }else{
+            route = cr(res.friend,end,route);
+          }
+        }else{
+          res.friend.forEach(function(res){
+            route += ',' + res;
+            if(res == end){
+              route += ' OR '; //end of one chain, find other chain
+              return route;
+            }else{
+              route = cr(res,end,route);
+            }
+          })
+        }
+      }
+    });
+    return route;
+  }
+  function show(bg,ed){
+    //split chains
+    k = cr(bg,ed,'').split(' OR ');
+    k.splice(-1,1);
+    maxlenth = 100;
+    var finalroute;
+    var beginsfriend;
+    //find starter's firend
+    obj.forEach(function(el){
+      if(el.name == bg){
+        beginsfriend = el.friend;
+      }
+    })
+
+    k.forEach(function(el){
+      //only choose the starter's connect in the chain
+      if(el.split(',')[1] == beginsfriend || beginsfriend.indexOf(el.split(',')[1])>=0 ){
+        mq = el.split(',');
+        mm = mq.length;
+        if(mm <= maxlenth){
+          maxlenth = el.length;
+          finalroute = el;
+        }
+      }
+    })
+    alert(bg+finalroute);
+  }
+</script>

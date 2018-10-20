@@ -1,0 +1,58 @@
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/angular.js/1.6.3/angular.min.js"></script>
+<body>
+  <div ng-app='ap' ng-controller='ct'>
+    Username<br/><input id='uname'><br/>
+    Password<br/><input id='upass'><br/>
+    <button id ='checkuser' onclick="passdata('checkuser')">Submit</button><br/><br/>
+    Content<br/><textarea id = 'continent'></textarea><br/>
+    <button onclick="passdata('wikicontent')" id='cbtn' style="display: none">Submit</button><br/>
+    <p id = 'sp' style="display: none">Structure</p><br/><textarea id = 'stext' style="display: none"></textarea><br/>
+    <button id = 'sbtn' style="display: none" onclick="passdata('wikistructure')">Submit Structure</button><br/>
+  </div>
+  <script type="text/javascript">
+    //no login no cbtn or no cbtn,sp,stext,sbtn
+    //no structure permit no stext sbtn
+    var app = angular.module('ap', []);
+    var km;
+    function passdata(t){
+      km = t;
+      console.log(km);
+      $.post("/a76d",{
+        'uname' : document.getElementById('uname').value,
+        'upass' : document.getElementById('upass').value,
+        'continent' : document.getElementById('continent').value,
+        'stext' : document.getElementById('stext').value,
+        'type' : t,
+      },function(result){
+        if(result == '1'){
+          $('#cbtn').show();
+        }
+        if(result == '2'){
+          $('#cbtn').show();
+          $('#sp').show();
+          $('#stext').show();
+          $('#sbtn').show();
+        }
+      });
+      if(km != 'checkuser'){
+        location.reload();
+      }
+    }
+
+    app.controller('ct',function($scope,$http){
+      $http.get('/a76d').then(function(response){
+        document.getElementById('stext').innerHTML = response.data;
+      })
+
+      $http.get('/a76dloadcontent').then(function(response){
+        document.getElementById('continent').innerHTML = response.data;
+        console.log(response.data);
+      })
+
+    });
+
+  </script>
+</body>
+</html>

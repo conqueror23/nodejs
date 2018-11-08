@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <title>Angularjs APP 1</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    </head>
+    <script>
+            var app = angular.module('app1',[]);
+            app.controller('output',function($scope){
+                $scope.item =['oneplue6t','magic2','mix3'];
+                $scope.addItems = function (){
+                    $scope.errortext ='';
+                    if(!$scope.addMe){ return;}
+                    if($scope.item.indexOf($scope.addMe)==-1){
+                        $scope.item.push($scope.addMe);
+                    }else{
+                        $scope.errortext ='The item already exist';
+                    }
+
+                }
+                $scope.removeItems=function (x){
+                    $scope.errortext ='';
+                    $scope.item.splice(x,1);
+                }
+            });
+        </script>
+
+    <body ng-app ='app1' ng-controller='output'>
+        <div >
+            <table border="2">
+                <td ng-repeat = 'x in item'>
+                    {{x}}
+                    <span ng-click = 'removeItems($index)'>Del</span>
+                </td>
+            </table>
+            <p>{{errortext}}</p>
+            Add things you are interested<input ng-model='addMe' type="text">
+            <button ng-click= 'addItems()'>Insert</button>
+            
+        </div>
+    </body>
+</html>

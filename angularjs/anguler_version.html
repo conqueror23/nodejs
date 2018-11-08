@@ -1,0 +1,55 @@
+<html>
+<head>
+  <title>  Sockect</title>
+  <script src = '/socket.io/socket.io.js'></script>
+  <script src = 'chat.js'></script>
+  <link href = 'chat.css' rel = 'sytlesheet'>
+ <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+<body >
+  <div id="product">
+    History Record:
+    <form id="form">
+        Search Company:<input type="text" id="search">
+        <button id="SearBtn"type="button">Search</button>
+    </form>
+    Search Result:
+    <!-- <ul id="searchResult"></ul> -->
+    <table ng-app = 'myapp' ng-controller='tablectrl'>
+      <tr>
+        <th>first name</th>
+        <th>last name</th>
+      </tr>
+      <td>
+        <input type="text" ng-model='firstname'>
+      </td>
+      <td>
+        <input type="text" ng-model ='lastname'
+      </td>
+      <tr>
+        <td>
+          first name:{{firstname}}
+        </td>
+        <td>
+          last name:{{lastname}}
+        </td>
+      </tr>
+    </table>
+    <script>
+    var app = angular.module('myapp',[]);
+    app.controller('tablectrl',function($scope){
+      $scope.firstname ='first';
+      $scope.lastname ='last';
+    });
+    </script>
+    <hr>
+    <form id='comm'>
+      product:<input type="text" id="productname">
+      comment:<input type="text" id="comments">
+      <button id="commentBtn" type="button">comment</button>
+    </form>
+    <p id="process"></p>
+  </div>
+
+</body>
+</html>

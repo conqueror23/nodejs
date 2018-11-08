@@ -1,0 +1,34 @@
+  <html>
+  <head>
+    <title>  Sockect</title>
+    <script src = '/socket.io/socket.io.js'></script>
+    <script src = 'chat.js'></script>
+    <link href = 'chat.css' rel = 'sytlesheet'>
+
+  </head>
+  <body>
+    <div id="product">
+      History Record:
+      <form id="form">
+          Search Company:<input type="text" id="search">
+          <button id="SearBtn"type="button">Search</button>
+      </form>
+      Search Result:
+      <ul id="searchResult"></ul>
+
+      <hr>
+      <form id='comm'>
+        <select id="options">
+        </select>
+
+        <!-- <select>
+          <option value="product1"></option>
+        </select> -->
+        comment:<input type="text" id="comments">
+        <button id="commentBtn" type="button">comment</button>
+      </form>
+      <p id="process"></p>
+    </div>
+
+  </body>
+</html>

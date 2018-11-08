@@ -1,0 +1,25 @@
+simple structure:
+
+product
+//huawei
+db.product.insert({company:"huawei","product":"mate20pro"});
+db.product.insert({company:"huawei","product":"mate20x"});
+db.product.insert({company:"huawei","product":"p20"});
+db.product.insert({company:"huawei","product":"matebook pro"});
+db.product.insert({company:"huawei","product":"p20pro"});
+
+db.product.insert({company:"dell","product":"xps13"});
+db.product.insert({company:"dell","product":"xps15"});
+db.product.insert({company:"dell","product":"allenware14"});
+db.product.insert({company:"dell","product":"allenware15"});
+db.product.insert({company:"dell","product":"xps2in1"});
+
+
+
+comments
+db.comments.insert({product:"mate20pro",comments :"excelents smarthone"})
+db.comments.insert({product:"mate20pro",comments:"not a good phone"})
+db.comments.insert({product:"p20",comments:"middle rage gits"})
+db.comments.insert({product:"p20pro",comments:"better specs p20"})
+db.comments.insert({product:"matebook pro",comments:"greate looking laptop"})
+db.comments.insert({product:"mate20x",comments:"smaller version mate20 "})

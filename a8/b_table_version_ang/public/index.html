@@ -1,0 +1,62 @@
+  <html>
+  <head>
+    <title>  Sockect</title>
+    <script src = '/socket.io/socket.io.js'></script>
+    <script src = 'chat.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.5/angular.js"></script>
+    <link href = 'chat.css' rel = 'sytlesheet'>
+
+  </head>
+  <body ng-app ='myapp'>
+    <div id="product">
+      History Record:
+      <form id="form">
+          Search Company:<input type="text" id="search">
+          <button id="SearBtn"type="button">Search</button>
+      </form>
+      Search Result:
+      <ul id="searchResult"></ul>
+
+      <hr>
+      <form id='comm'>
+        <select id="options" >
+        </select>
+        comment:<input type="text" id="comments">
+        <button id="commentBtn" type="button">comment</button>
+      </form>
+      <p id="process"></p>
+    </div>
+    <div ng-controller='comment'>
+      <table border="1">
+        products informations
+        <tr>
+          <th>No.</th><th>product</th><th>Comments</th>
+        </tr>
+        <tr ng-repeat='x in product'>
+        <td>{{$index+1}}</td>
+        <td >{{x.product}}</td>
+        <td >{{x.comments}}</td>
+      </tr>
+      <script>
+      var app = angular.module('myapp',[]);
+      app.controller('comment',function($scope,$http){
+        $http.get("/comm")
+        .then(function(response){
+          $scope.product = response.data;
+
+          console.log(response);
+        })
+        })
+        // app.controller('ng_selection',function($scope,$htt){
+        //   $http.get("/product")
+        //   .then(function(info){
+        //     $scope.productName=info;
+        //     console.log(info);
+        //   })
+        // })
+      </script>
+      </table>
+    </div>
+
+  </body>
+</html>

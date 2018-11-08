@@ -1,0 +1,40 @@
+<html>
+
+<body>
+    
+    <div onmousedown="WhichButton(event)" style="border:'1 solid'">
+            <canvas id="canvas"></canvas>
+    </div>
+
+    <script>
+       var poly=[ 0, 0, 90, 40, 50, 95, 0,90 ];
+        var canvas=document.getElementById("canvas")
+        var ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#ab8';
+        ctx.beginPath();
+        ctx.moveTo(poly[0], poly[1]);
+        for( i=2 ; i < poly.length-1 ; i+=2 )
+                            {ctx.lineTo( poly[i] , poly[i+1] )}
+        ctx.closePath();
+        ctx.fill();
+        var poly = [];
+
+        function WhichButton(event) {
+            if (event.button  !=  2)  { //not right click
+               poly.push (event.clientX);
+               poly.push (event.clientY);
+            }
+            else  {  //right click
+                ctx.clearRect(0,0,canvas.width,canvas.height)   //clear            
+                ctx.beginPath();
+                ctx.moveTo(poly[0], poly[1]);
+                 for( i=2 ; i < poly.length-1 ; i+=2 )
+                          {ctx.lineTo( poly[i] , poly[i+1] )}
+                  ctx.closePath();
+                  ctx.fill();
+                   ploy=[]; //empty the array for further use
+        }
+        }  
+    </script>
+</body>
+</html>

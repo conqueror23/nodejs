@@ -1,0 +1,11 @@
+simple structure:
+db.comments.insert({company:"huaweri","product":"mate20pro","comment":"flagship of the flagship"});
+db.comments.insert({company:"huaweri","product":"mate20pro","comment":"not as expected as it should be"});
+db.comments.insert({$push:{company:"huaweri","product":"p20","comment":"compact devices"}});
+
+
+
+complex structure:
+db.comments.insert({company:"huaweri","products":[{"product":"mate20pro","comment":"flagship of the flagship"},{"product":"p20","comment":"compact devices"}]});
+db.comments.insert({company:"oneplus","products":[{"product":"oneplues3","comment":"previous flagship"},{"product":"oneplus6t","comment":"new kings of the flagship"}]});
+db.comments.insert({company:"apple","product":[{"product":"mbp13","comment":"ultra protable"},{"product":"mbp15","comment":"versital product"}]});

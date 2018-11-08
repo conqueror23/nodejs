@@ -1,0 +1,67 @@
+<html>
+    <body>
+        <h1>Learning Observer Pattern</h1>
+        <h1>
+            <input id ="directorCheckbox" type="text"><br>
+            <button id="observerAdding">Add a Checkbox which can observer the director Checkbox</button>
+            <div id = "observerCheckboxesContainer"></div>
+
+        </h1>
+        <script>
+            ///keep and manipulating observer
+            function KeepObservers(){
+                this.listOfObservers =[];
+            };
+            KeepObservers.prototype.add= function(obj){
+                return this.listOfObservers.push(obj);
+            };
+            KeepObservers.prototype.Get = function(index){
+                if(index > -1 && index < this.listOfObservers.length){
+                    return this.listOfObservers[index];
+                };
+            };
+            //extending objects
+            // extensions?
+            function extend(extension,obj){
+                for(var key in extension){
+                    obj[key]=extension[key];
+                };
+            };
+            // an abstract class for Subject
+            function Subject(){
+                this.observers = new KeepObservers();
+            };
+            Subject.prototype.addAnObserver = function (observer){
+                this.observers.add(observer);
+            };
+            Subject.prototype.Notify = function(context){
+                for(var i=0;i<this.observers.listOfObservers.length;i++){
+                    this.observers.Get(i).updateMe(context);
+                };
+            };
+            function Observer(){ //skeleton for observer. updateMe will be overwritten later
+                this.updateMe = function(){
+                    alter("This will be overwritten");
+                };
+            };
+            var controlCheckBox = document.getElementById("directorCheckbox");
+            var addBtn = document.getElementById("observerAdding");
+            var container = document.getElementById("observerCheckboxesContainer");
+            extend(new Subject(),controlCheckBox);
+            controlCheckBox["onclick"]= new Function("controlCheckBox.Notify(controlCheckBox.value)");
+            addBtn["onclick"] = addNewObserver;
+            function addNewObserver(){
+                var check = document.createElement("input");
+                check.type="text";
+                check.value = controlCheckBox.value;
+                extend(new Observer(),check);
+                check.updateMe = function(words){
+                    this.value = words;
+                };
+                container.appendChild(check);
+                controlCheckBox.addAnObserver(check); //add new observer to the list of observers
+            }
+
+        </script>
+    </body>
+</html>

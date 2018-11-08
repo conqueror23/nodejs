@@ -1,0 +1,10 @@
+use testdb
+
+// collections items
+
+
+db.phone.insert({brand:'huawei',name:'magic2'});
+db.phone.insert({brand:'oneplus',name:'oneplus6t'});
+db.phone.insert({brand:'xiaomi',name:'mix3'});
+db.phone.insert({brand:'nubia',name:'nubia_x'});
+db.phone.insert({brand:'vivo',name:'vivo_nex'});
